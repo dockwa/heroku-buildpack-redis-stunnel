@@ -60,4 +60,5 @@ EOFEOF
   let "n += 1"
 done
 
+cat /app/vendor/stunnel/stunnel.conf
 chmod go-rwx /app/vendor/stunnel/*
