@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-URLS=${REDIS_STUNNEL_URLS:-HEROKU_REDIS_BLUE_URL `compgen -v HEROKU_REDIS`}
+URLS=${HEROKU_REDIS_BLUE_URL}
 n=1
 
 mkdir -p /app/vendor/stunnel/var/run/stunnel/
@@ -35,8 +35,10 @@ do
     URI_PORT=${URI[3]}
     STUNNEL_PORT=$((URI_PORT + 1))
 
-    echo "Setting ${URL}_STUNNEL config var"
-    export ${URL}_STUNNEL=$URI_SCHEME://:$URI_PASS@127.0.0.1:637${n}
+    echo "Setting REDIS_URL config var"
+    export REDIS_URL=$URI_SCHEME://:$URI_PASS@127.0.0.1:637${n}
+    # echo "Setting ${URL}_STUNNEL config var"
+    # export ${URL}_STUNNEL=$URI_SCHEME://:$URI_PASS@127.0.0.1:637${n}
   else
     URI_SCHEME=${URI[0]}
     URI_USER=${URI[1]}
@@ -45,8 +47,10 @@ do
     URI_PORT=${URI[4]}
     STUNNEL_PORT=$((URI_PORT + 1))
 
-    echo "Setting ${URL}_STUNNEL config var"
-    export ${URL}_STUNNEL=$URI_SCHEME://$URI_USER:$URI_PASS@127.0.0.1:637${n}
+    echo "Setting REDIS_URL config var"
+    export REDIS_URL=$URI_SCHEME://$URI_USER:$URI_PASS@127.0.0.1:637${n}
+    # echo "Setting ${URL}_STUNNEL config var"
+    # export ${URL}_STUNNEL=$URI_SCHEME://$URI_USER:$URI_PASS@127.0.0.1:637${n}
   fi
 
   cat >> /app/vendor/stunnel/stunnel.conf << EOFEOF
@@ -61,4 +65,5 @@ EOFEOF
 done
 
 cat /app/vendor/stunnel/stunnel.conf
+env
 chmod go-rwx /app/vendor/stunnel/*
