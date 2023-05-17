@@ -20,11 +20,14 @@ REDIS_URL=${REDIS_URL}@127.0.0.1:6371
 
 export REDIS_URL=$REDIS_URL
 
+STUNNEL_URI=${HEROKU_REDIS_BLUE_URL#*@}
+export STUNNEL_URI=${STUNNEL_URI}
+
 cat >> /app/vendor/stunnel/stunnel.conf << EOFEOF
 [REDIS_URL]
 client = yes
 accept = 127.0.0.1:6371
-connect = ${HEROKU_REDIS_BLUE_URL}
+connect = ${STUNNEL_URI}
 retry = ${STUNNEL_CONNECTION_RETRY:-"no"}
 EOFEOF
 
