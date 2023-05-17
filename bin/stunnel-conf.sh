@@ -27,34 +27,19 @@ do
   fi
   URI=( $PARTS )
 
+  URI_SCHEME=${URI[0]}
+  URI_USER=${URI[1]}
+  URI_PASS=${URI[2]}
+  URI_HOST=${URI[3]}
+  URI_PORT=${URI[4]}
 
-  if [ "$WITHOUT_USERNAME" = true ] ; then
-    URI_SCHEME=${URI[0]}
-    URI_PASS=${URI[1]}
-    URI_HOST=${URI[2]}
-    URI_PORT=${URI[3]}
-    STUNNEL_PORT=$((URI_PORT + 1))
-
-    echo "Setting REDIS_URL config var"
-    export REDIS_URL=$URI_SCHEME://:$URI_PASS@127.0.0.1:637${n}
-    # echo "Setting ${URL}_STUNNEL config var"
-    # export ${URL}_STUNNEL=$URI_SCHEME://:$URI_PASS@127.0.0.1:637${n}
-  else
-    URI_SCHEME=${URI[0]}
-    URI_USER=${URI[1]}
-    URI_PASS=${URI[2]}
-    URI_HOST=${URI[3]}
-    URI_PORT=${URI[4]}
-    STUNNEL_PORT=$((URI_PORT + 1))
-
-    echo "Setting REDIS_URL config var"
-    export REDIS_URL=$URI_SCHEME://$URI_USER:$URI_PASS@127.0.0.1:637${n}
-    # echo "Setting ${URL}_STUNNEL config var"
-    # export ${URL}_STUNNEL=$URI_SCHEME://$URI_USER:$URI_PASS@127.0.0.1:637${n}
-  fi
+  echo "Setting REDIS_URL config var"
+  export REDIS_URL=redis://$URI_USER:$URI_PASS@127.0.0.1:637${n}
+  # echo "Setting ${URL}_STUNNEL config var"
+  # export ${URL}_STUNNEL=$URI_SCHEME://$URI_USER:$URI_PASS@127.0.0.1:637${n}
 
   cat >> /app/vendor/stunnel/stunnel.conf << EOFEOF
-[$URL]
+[REDIS_URL]
 client = yes
 accept = 127.0.0.1:637${n}
 connect = $URI_HOST:$URI_PORT
