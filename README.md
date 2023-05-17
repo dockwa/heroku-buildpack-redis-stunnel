@@ -16,7 +16,7 @@ available when using the hobby tier.
 Then set this buildpack as your initial buildpack with:
 
 ```console
-$ heroku buildpacks:add -i 1 heroku/redis
+$ heroku buildpacks:add -i 1 https://github.com/dockwa/heroku-buildpack-redis-stunnel.git
 ```
 
 Then confirm you are using this buildpack as well as your language buildpack like so:
