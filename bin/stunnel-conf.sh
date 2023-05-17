@@ -53,7 +53,7 @@ do
 [$URL]
 client = yes
 accept = 127.0.0.1:637${n}
-connect = $URI_HOST:$STUNNEL_PORT
+connect = $URI_HOST:$URI_PORT
 retry = ${STUNNEL_CONNECTION_RETRY:-"no"}
 EOFEOF
 
