@@ -33,6 +33,9 @@ do
   URI_HOST=${URI[3]}
   URI_PORT=${URI[4]}
 
+  echo "URI PARTS"
+  echo ${URI}
+
   echo "Setting REDIS_URL config var"
   export REDIS_URL=redis://$URI_USER:$URI_PASS@127.0.0.1:637${n}
   # echo "Setting ${URL}_STUNNEL config var"
